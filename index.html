@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="ko" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>확장된 인문학자: XR과 인문학의 미래</title>
+    <!-- Chosen Palette: Warm Neutrals -->
+    <!-- Application Structure Plan: This SPA is designed with a thematic, narrative-driven structure to guide the user from foundational concepts to future implications, which is more engaging than the report's linear academic structure. The flow is: 1. Hero (Hook), 2. What is XR? (Interactive Definitions), 3. How is it used? (Case Studies), 4. What are the risks? (Ethical Challenges), 5. What's next? (The Future). This user-centric journey breaks down complex information into digestible, interconnected sections, facilitated by a sticky navigation bar for easy exploration. -->
+    <!-- Visualization & Content Choices: 
+        - Report Info: XR Spectrum (Table 1) -> Goal: Organize/Compare -> Viz: Interactive HTML/JS Diagram -> Justification: More engaging than a static table, encourages active learning. -> Library/Method: HTML/CSS/JS.
+        - Report Info: Ethical Challenges (Table 2) -> Goal: Organize/Inform -> Viz: Interactive Flip Cards -> Justification: Presents dense ethical considerations in manageable, user-initiated chunks. -> Library/Method: HTML/CSS/JS.
+        - Report Info: DH Research Growth (Ref. [53]) -> Goal: Change -> Viz: Line Chart -> Justification: Clearly visualizes the quantitative trend mentioned in the report. -> Library/Method: Chart.js (Canvas).
+        - Report Info: Ecosystem Map (Ch. 6) -> Goal: Organize/Relationships -> Viz: HTML/CSS Diagram -> Justification: Visually represents the network of institutions. -> Library/Method: HTML/CSS/JS (Tailwind).
+        - Report Info: T-Shaped Talent (Ch. 7) -> Goal: Inform -> Viz: Simple HTML/CSS Diagram -> Justification: A clear, memorable visual metaphor for the required skill set. -> Library/Method: HTML/CSS/JS (Tailwind).
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Noto Sans KR', sans-serif; background-color: #F5F5F4; color: #44403C; }
+        h1, h2, h3 { font-family: 'Playfair Display', serif; }
+        .chart-container { position: relative; width: 100%; max-width: 900px; margin-left: auto; margin-right: auto; height: 350px; max-height: 45vh; }
+        .nav-link { transition: color 0.3s ease, border-color 0.3s ease; }
+        .nav-link:hover, .nav-link.active { color: #A16207; border-color: #A16207; }
+        .spectrum-bar { background: linear-gradient(to right, #D6D3D1, #A16207); }
+        .spectrum-point { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .spectrum-point:hover { transform: scale(1.2); box-shadow: 0 0 15px rgba(161, 98, 7, 0.5); }
+        .flip-card { perspective: 1000px; }
+        .flip-card-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; }
+        .flip-card.flipped .flip-card-inner { transform: rotateY(180deg); }
+        .flip-card-front, .flip-card-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 1rem; border-radius: 0.5rem; }
+        .flip-card-back { transform: rotateY(180deg); }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header & Nav -->
+    <header id="header" class="bg-stone-100/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <a href="#hero" class="text-xl font-bold text-amber-800">확장된 인문학자</a>
+            <div class="hidden md:flex space-x-8">
+                <a href="#humanity" class="nav-link border-b-2 border-transparent pb-1">인문학이란</a>
+                <a href="#spectrum" class="nav-link border-b-2 border-transparent pb-1">XR 스펙트럼</a>
+                <a href="#toolkit" class="nav-link border-b-2 border-transparent pb-1">새로운 도구</a>
+                <a href="#ethics" class="nav-link border-b-2 border-transparent pb-1">윤리적 과제</a>
+                <a href="#future" class="nav-link border-b-2 border-transparent pb-1">미래</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="hero" class="min-h-screen flex items-center bg-stone-100">
+            <div class="container mx-auto px-6 text-center">
+                <h1 class="text-5xl md:text-7xl font-bold text-stone-800">확장된 현실, 확장된 인문학</h1>
+                <p class="mt-6 text-lg md:text-xl text-stone-600 max-w-3xl mx-auto">
+                    가상현실(VR), 증강현실(AR), 혼합현실(MR)은 더 이상 기술의 영역에 머무르지 않습니다.
+                    <br>XR 기술은 인간의 경험, 서사, 그리고 과거를 탐구하는 방식을 근본적으로 재정의하며 <br>인문학의 새로운 지평을 열고 있습니다.
+                </p>
+            </div>
+        </section>
+
+         <!-- Section 0: humanity-->
+         <section id="humanity" class="py-20 md:py-32 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-bold text-stone-800">인문학이란 무엇인가?</h2>
+                    <p class="mt-4 text-lg text-stone-600 max-w-3xl mx-auto">인간을 이해하는 가장 깊은 탐구</p>
+                </div>
+                <div class="bg-white rounded-lg shadow-lg text-center overflow-hidden transform hover:-translate-y-2 transition-transform duration-300 py-10">
+                    <h3 class="text-2xl font-bold text-stone-800">" 인간이란 무엇이며, 어떻게 살아야 하는가? "</h3>
+                    <p class="mt-4 text-base text-stone-600 max-w-3xl mx-auto">이 근원적인 질문에 답을 찾아가는 여정, 그것이 바로 인문학의 시작입니다.</p>
+                </div>
+                <h3 class="text-2xl font-bold text-center mb-10 mt-10 hidden">인문학의 핵심 정의</h2>
+                <div class="mt-10"></div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="bg-white rounded-lg shadow-md p-6 text-center border-t-4 border-amber-600">
+                        <h3 class="text-lg font-bold text-amber-600 mb-2">무엇을? (WHAT)</h3>
+                        <p class="text-sm text-stone-600">인간의 사상, 문화, 역사, 언어, 예술 등 인간이 남긴 모든 정신적 유산을 탐구합니다.</p>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-md p-6 text-center border-t-4 border-amber-700">
+                        <h3 class="text-lg font-bold text-amber-700 mb-2">어떻게? (HOW)</h3>
+                        <p class="text-sm text-stone-600">텍스트를 해석하고, 현상을 비판하며, 본질을 사유하는 방식으로 접근합니다.</p>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-md p-6 text-center border-t-4 border-amber-800">
+                        <h3 class="text-lg font-bold text-amber-800 mb-2">왜? (WHY)</h3>
+                        <p class="text-sm text-stone-600">기술 중심 시대에 인간 고유의 가치를 잃지 않고, 더 지혜로운 삶을 살기 위함입니다.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+            
+
+        <!-- Section 1: XR Spectrum -->
+        <section id="spectrum" class="py-20 md:py-32 bg-stone-100">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-bold text-stone-800">현실-가상 연속체: XR 스펙트럼 가이드</h2>
+                    <p class="mt-4 text-lg text-stone-600 max-w-3xl mx-auto">XR 기술은 현실과 가상이 혼합되는 정도에 따라 하나의 스펙트럼으로 이해할 수 있습니다. <br>각 기술을 클릭하여 인문학 연구에 어떤 고유한 가능성을 제공하는지 알아보세요.</p>
+                </div>
+
+                <div class="relative w-full max-w-4xl mx-auto p-8">
+                    <div class="spectrum-bar h-1 w-full rounded-full"></div>
+                    <div class="absolute top-1/2 left-0 w-full flex justify-between items-center -translate-y-1/2">
+                        <div class="text-center w-1/4">
+                            <div id="point-real" class="spectrum-point w-6 h-6 bg-stone-400 rounded-full mx-auto cursor-default border-2 border-white shadow-lg"></div>
+                            <p class="mt-4 font-semibold text-stone-700">현실 환경</p>
+                        </div>
+                        <div class="text-center w-1/4">
+                            <div id="point-ar" class="spectrum-point w-8 h-8 bg-amber-600 rounded-full mx-auto cursor-pointer border-2 border-white shadow-lg"></div>
+                            <p class="mt-3 font-semibold text-amber-700">증강현실 (AR)</p>
+                        </div>
+                        <div class="text-center w-1/4">
+                            <div id="point-mr" class="spectrum-point w-8 h-8 bg-amber-700 rounded-full mx-auto cursor-pointer border-2 border-white shadow-lg"></div>
+                            <p class="mt-3 font-semibold text-amber-800">혼합현실 (MR)</p>
+                        </div>
+                        <div class="text-center w-1/4">
+                            <div id="point-vr" class="spectrum-point w-8 h-8 bg-amber-800 rounded-full mx-auto cursor-pointer border-2 border-white shadow-lg"></div>
+                            <p class="mt-3 font-semibold text-amber-900">가상현실 (VR)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="spectrum-details" class="mt-12 min-h-[200px] bg-stone-50 rounded-lg p-8 transition-opacity duration-500">
+                    <div id="details-content" class="text-center text-stone-600">
+                        <p>스펙트럼의 각 지점을 클릭하여 상세 내용을 확인하세요.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: The New Humanistic Toolkit -->
+        <section id="toolkit" class="py-20 md:py-32 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-bold text-stone-800">인문학의 새로운 도구: 활용 사례</h2>
+                    <p class="mt-4 text-lg text-stone-600 max-w-3xl mx-auto">XR은 인문학의 각 분야에서 연구와 교육의 패러다임을<br> '정보 전달'에서 '체화된 경험'으로 전환시키고 있습니다. <br>이는 과거와의 단절감을 극복하고 새로운 형태의 역사적, 문학적 상상력을 자극합니다.</p>
+                </div>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Case Study 1 -->
+                    <div class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300">
+                        <div class="p-6">
+                            <span class="text-sm font-semibold text-amber-800 bg-amber-100 px-3 py-1 rounded-full">VR: 역사적 공감</span>
+                            <h3 class="mt-4 text-2xl font-bold text-stone-700">안네 프랑크의 집</h3>
+                            <p class="mt-2 text-stone-600">사용자는 비밀 별관의 좁고 어두운 공간을 직접 탐색하며, 그곳에서의 압박감과 불안을 공간적으로 체험합니다. 이는 역사적 사건의 방관자가 아닌, 그 공간의 무게를 느끼는 참여자가 되게 하여 깊은 공감대를 형성합니다.</p>
+                        </div>
+                    </div>
+                    <!-- Case Study 2 -->
+                    <div class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300">
+                        <div class="p-6">
+                            <span class="text-sm font-semibold text-amber-800 bg-amber-100 px-3 py-1 rounded-full">AR: 증강된 과거</span>
+                            <h3 class="mt-4 text-2xl font-bold text-stone-700">문화유산 복원</h3>
+                            <p class="mt-2 text-stone-600">허물어진 유적지 터 위에서 AR 앱을 통해 과거 건축물의 원래 모습을 실물 크기로 재현합니다. 과거와 현재를 하나의 시야에 담아내어, 시공간을 초월한 깊이 있는 이해를 가능하게 합니다.</p>
+                        </div>
+                    </div>
+                    <!-- Case Study 3 -->
+                    <div class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300">
+                        <div class="p-6">
+                            <span class="text-sm font-semibold text-amber-800 bg-amber-100 px-3 py-1 rounded-full">MR: 상호작용하는 유물</span>
+                            <h3 class="mt-4 text-2xl font-bold text-stone-700">가상 박물관</h3>
+                            <p class="mt-2 text-stone-600">손상되기 쉬운 유물의 가상 복제품을 현실 공간에 불러와 직접 손으로 조작하고 탐색합니다. 관람객은 수동적 관찰자를 넘어, 능동적인 탐구자가 되어 새로운 차원의 감상을 경험합니다.</p>
+                        </div>
+                    </div>
+                    <!-- Case Study 4 -->
+                    <div class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300 md:col-span-2 lg:col-span-3">
+                        <div class="p-6 md:flex md:items-center">
+                            <div class="md:w-2/3">
+                                <span class="text-sm font-semibold text-amber-800 bg-amber-100 px-3 py-1 rounded-full">VR: 서사 속으로</span>
+                                <h3 class="mt-4 text-2xl font-bold text-stone-700">소설가 구보씨의 일일</h3>
+                                <p class="mt-2 text-stone-600">1930년대 경성의 거리를 '구보씨'가 되어 직접 거닐며 그의 권태와 시대적 분위기를 감각적으로 이해합니다. 독자는 텍스트 밖 관찰자에서 서사 속 참여자로 전환되며, 문학적 경험의 주체는 '독자'에서 '참여자'로 이동합니다.</p>
+                            </div>
+                            <div class="md:w-1/3 mt-4 md:mt-0 text-center text-5xl font-bold flex justify-center items-center">
+                                <span class="text-stone-500">독자</span>
+                                <span class="text-amber-700 mx-4">→</span>
+                                <span class="text-amber-900">참여자</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Ethical Challenges -->
+        <section id="ethics" class="py-20 md:py-32 bg-stone-100">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-bold text-stone-800">양날의 검: 윤리적, 실천적 도전</h2>
+                    <p class="mt-4 text-lg text-stone-600 max-w-3xl mx-auto">XR의 매력적인 가능성 이면에는 <br>반드시 비판적으로 검토해야 할 중대한 장애물과 윤리적 함정들이 존재합니다. <br>카드를 클릭하여 각 쟁점을 자세히 살펴보세요.</p>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="flip-card h-56 cursor-pointer">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front bg-stone-100 shadow-md">
+                                <h3 class="text-2xl font-bold text-stone-700">진정성</h3>
+                                <p class="mt-2 text-sm text-stone-500">Authenticity</p>
+                            </div>
+                            <div class="flip-card-back bg-amber-800 text-white shadow-lg">
+                                <h4 class="font-bold">진정성 역설</h4>
+                                <p class="text-sm mt-2">기술적으로 사실적일수록, 해석을 진실로 오인하게 만들어 비판적 사고를 마비시킬 위험이 있습니다. 지적 투명성이 중요합니다.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flip-card h-56 cursor-pointer">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front bg-stone-100 shadow-md">
+                                <h3 class="text-2xl font-bold text-stone-700">재현과 소유권</h3>
+                                <p class="mt-2 text-sm text-stone-500">Representation</p>
+                            </div>
+                            <div class="flip-card-back bg-amber-800 text-white shadow-lg">
+                                <h4 class="font-bold">디지털 식민주의</h4>
+                                <p class="text-sm mt-2">누가, 누구의 문화를 재현하는가? 서구 중심적 시각을 영속화하고 문화적 서사의 소유권을 침해할 위험을 경계해야 합니다.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flip-card h-56 cursor-pointer">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front bg-stone-100 shadow-md">
+                                <h3 class="text-2xl font-bold text-stone-700">데이터 프라이버시</h3>
+                                <p class="mt-2 text-sm text-stone-500">Data Privacy</p>
+                            </div>
+                            <div class="flip-card-back bg-amber-800 text-white shadow-lg">
+                                <h4 class="font-bold">감시 자본주의</h4>
+                                <p class="text-sm mt-2">XR 기기는 시선, 감정 등 극도로 개인적인 생체 정보를 수집합니다. 이 데이터의 수집, 활용에 대한 투명한 규제가 필요합니다.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flip-card h-56 cursor-pointer">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front bg-stone-100 shadow-md">
+                                <h3 class="text-2xl font-bold text-stone-700">디지털 격차</h3>
+                                <p class="mt-2 text-sm text-stone-500">Digital Divide</p>
+                            </div>
+                            <div class="flip-card-back bg-amber-800 text-white shadow-lg">
+                                 <h4 class="font-bold">다층적 불평등</h4>
+                                <p class="text-sm mt-2">고가의 장비, 기술력, 제도적 지원의 차이가 학문 공동체 내 새로운 불평등을 심화시킬 수 있습니다.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: The Future -->
+        <section id="future" class="py-20 md:py-32 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-bold text-stone-800">미래의 경작: 다음 세대를 위하여</h2>
+                    <p class="mt-4 text-lg text-stone-600 max-w-3xl mx-auto">인문학 XR의 미래는 기술 발전뿐 아니라, <br>이를 뒷받침하는 지원 생태계와 미래 인재의 역량에 달려 있습니다. </p>
+                </div>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-5 gap-12">
+                    <div class="lg:col-span-3 bg-white p-8 rounded-lg shadow-lg">
+                        <h3 class="text-2xl font-bold text-stone-700 mb-6">디지털 인문학 연구 동향</h3>
+                        <p class="text-stone-600 mb-4">2015년 이후, 컴퓨터 방법론을 인문학에 적용하는 디지털 인문학(DH) 연구가 급증하고 있으며, XR은 이 분야의 최전선에 있습니다. 이는 학계의 패러다임이 융합 연구로 이동하고 있음을 보여줍니다.</p>
+                        <div class="chart-container h-64 max-h-[40vh]">
+                            <canvas id="researchTrendChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-2 bg-white p-8 rounded-lg shadow-lg flex flex-col justify-center">
+                        <h3 class="text-2xl font-bold text-stone-700 mb-6 text-center" mb-16>'T자형 인재'의 필요성</h3>
+                        <div class="relative mx-auto" style="width: 200px; height: 150px;">
+                            <div class="absolute top-0 left-0 w-full h-8 bg-amber-700 rounded-md flex justify-center items-center text-white font-semibold">디지털 리터러시</div>
+                            <div class="absolute top-8 left-1/2 w-8 h-full bg-amber-800 rounded-md -translate-x-1/2 flex justify-center items-end pb-2">
+                                <span class="transform rotate-90 whitespace-nowrap text-white font-semibold mb-8">인문학 전문성</span>
+                            </div>
+                        </div>
+                         <p class="text-sm text-stone-600 text-center mt-16">미래의 인문학도는 <br>깊이 있는 전공 지식(수직축)과 <br>폭넓은 디지털 기술 이해(수평축)를 <br>겸비해야 합니다.</p>
+                    </div>
+                </div>
+                
+                 
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-stone-100 text-stone-300 py-12">
+        <div class="container mx-auto px-6 text-center">
+            <p class="font-bold text-lg text-stone-400">확장된 현실은 '확장된 인문학'의 가능성입니다.</p>
+            <p class="mt-2 text-sm text-stone-400">이 새로운 지평을 책임감 있게 탐색하는 것은 우리 시대 인문학자들의 중요한 과제입니다.</p>
+            <p class="mt-6 text-xs text-stone-500">Based on the report "The Extended Humanist". Interactive application by Gemini.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- Navigation Logic ---
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.4
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        navLinks.forEach(link => {
+                            link.classList.remove('active');
+                            if (link.getAttribute('href').substring(1) === entry.target.id) {
+                                link.classList.add('active');
+                            }
+                        });
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+            
+            // --- XR Spectrum Interaction ---
+            const spectrumData = {
+                ar: {
+                    title: '증강현실 (Augmented Reality)',
+                    description: '현실 세계를 대체하는 것이 아니라, 그 위에 디지털 정보(그래픽, 텍스트 등)를 겹쳐 보여주는 기술입니다. 사용자는 스마트폰이나 스마트 안경을 통해 현실과 가상 정보를 동시에 봅니다.',
+                    goal: '현장(in-situ) 정보 제공, 맥락적 학습, 디지털 주석'
+                },
+                mr: {
+                    title: '혼합현실 (Mixed Reality)',
+                    description: '현실 세계와 가상 세계를 병합하여, 물리적 객체와 디지털 객체가 실시간으로 공존하며 상호작용하는 새로운 환경을 창조합니다. 가상 객체가 현실 공간을 인식하고 반응하는 것이 핵심입니다.',
+                    goal: '실습 시뮬레이션, 협업 디자인, 가상 유물과의 실감나는 상호작용'
+                },
+                vr: {
+                    title: '가상현실 (Virtual Reality)',
+                    description: '컴퓨터로 구현된 가상 환경에 사용자를 완전히 몰입시키는 기술입니다. HMD를 통해 시각적으로 주변 환경을 차단하여, 마치 다른 시공간에 실제로 존재하고 있다는 \'현존감\'을 제공합니다.',
+                    goal: '공감대 형성, 체화된 경험, 접근 불가능한 장소 방문'
+                }
+            };
+            
+            const detailsContainer = document.getElementById('details-content');
+            document.getElementById('point-ar').addEventListener('click', () => updateDetails('ar'));
+            document.getElementById('point-mr').addEventListener('click', () => updateDetails('mr'));
+            document.getElementById('point-vr').addEventListener('click', () => updateDetails('vr'));
+
+            function updateDetails(tech) {
+                const data = spectrumData[tech];
+                detailsContainer.parentElement.style.opacity = 0;
+                setTimeout(() => {
+                    detailsContainer.innerHTML = `
+                        <h3 class="text-2xl font-bold text-stone-700">${data.title}</h3>
+                        <p class="mt-4 text-stone-600 max-w-2xl mx-auto">${data.description}</p>
+                        <div class="mt-4 pt-4 border-t border-stone-200">
+                            <p class="text-sm font-semibold text-amber-800">인문학을 위한 주요 목표:</p>
+                            <p class="text-stone-600">${data.goal}</p>
+                        </div>
+                    `;
+                    detailsContainer.parentElement.style.opacity = 1;
+                }, 300);
+            }
+
+            // --- Flip Card Interaction ---
+            const flipCards = document.querySelectorAll('.flip-card');
+            flipCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    card.classList.toggle('flipped');
+                });
+            });
+
+            // --- Chart.js Logic ---
+            function wrapLabels(label, maxWidth) {
+                if (label.length <= maxWidth) {
+                    return label;
+                }
+                const words = label.split(' ');
+                let lines = [];
+                let currentLine = words[0];
+
+                for (let i = 1; i < words.length; i++) {
+                    if (currentLine.length + words[i].length + 1 < maxWidth) {
+                        currentLine += ' ' + words[i];
+                    } else {
+                        lines.push(currentLine);
+                        currentLine = words[i];
+                    }
+                }
+                lines.push(currentLine);
+                return lines;
+            }
+
+            const tooltipTitleCallback = (tooltipItems) => {
+                const item = tooltipItems[0];
+                let label = item.chart.data.labels[item.dataIndex];
+                return Array.isArray(label) ? label.join(' ') : label;
+            };
+
+            const chartOptions = {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: { title: tooltipTitleCallback },
+                        backgroundColor: '#44403C',
+                        titleColor: '#F5F5F4',
+                        bodyColor: '#D6D3D1',
+                        titleFont: { family: "'Noto Sans KR', sans-serif" },
+                        bodyFont: { family: "'Noto Sans KR', sans-serif" }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: { color: '#78716C', font: { family: "'Noto Sans KR', sans-serif" } },
+                        grid: { color: '#E7E5E4' }
+                    },
+                    x: {
+                        ticks: { color: '#78716C', font: { family: "'Noto Sans KR', sans-serif" } },
+                        grid: { display: false }
+                    }
+                }
+            };
+
+            const trendCtx = document.getElementById('researchTrendChart').getContext('2d');
+            new Chart(trendCtx, {
+                type: 'line',
+                data: {
+                    labels: ['2014', '2015', '2016', '2017', '2018', '2019', '2020+'],
+                    datasets: [{
+                        label: '연구 수 (상대적 증가)',
+                        data: [5, 10, 25, 45, 65, 80, 100],
+                        fill: true,
+                        borderColor: '#A16207',
+                        backgroundColor: 'rgba(161, 98, 7, 0.1)',
+                        tension: 0.4
+                    }]
+                },
+                options: chartOptions
+            });
+        });
+    </script>
+
+</body>
+</html>
